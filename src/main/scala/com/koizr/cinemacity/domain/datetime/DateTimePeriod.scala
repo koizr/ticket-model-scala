@@ -42,7 +42,7 @@ object TimePeriod {
   object Late extends TimePeriod
 
   def apply(datetime: DateTime): TimePeriod =
-    if (datetime.hour < 19) {
+    if (datetime.hour < 20) {
       Early
     } else {
       Late
