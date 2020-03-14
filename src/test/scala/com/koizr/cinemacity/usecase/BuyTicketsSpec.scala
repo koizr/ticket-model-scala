@@ -12,11 +12,7 @@ class BuyTicketsSpec extends FlatSpec {
     CustomerGroup(customers)
 
   def screen(at: DateTime): Screen =
-    Screen(
-      Film("The movie", Time(2)),
-      ScreenNumber(1),
-      DateTime(2020, 1, 6, 10)
-    )
+    Screen(Film("The movie", Time(2)), ScreenNumber(1), at)
 
   "General customer" should "buy a ticket for 1800 yen at Monday 19:00" in {
     val tickets = BuyTicket(group(CustomerType.General), screen(DateTime(2020, 1, 6, 19)))
