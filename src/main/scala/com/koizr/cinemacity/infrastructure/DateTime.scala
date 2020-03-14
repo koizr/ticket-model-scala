@@ -1,9 +1,12 @@
 package com.koizr.cinemacity.infrastructure
 
 import com.koizr.cinemacity.domain.datetime.{DayOfWeek, Friday, Monday, Saturday, Sunday, Thursday, Tuesday, Wednesday, DateTime => DateTimeInterface}
+import org.joda.time.format.DateTimeFormat
 import org.joda.time.{DateTime => JodaTime}
 
 class DateTime private(value: JodaTime) extends DateTimeInterface {
+  private val formatter = DateTimeFormat.forPattern("yyyy/MM/dd(E) HH:mm:ss")
+
   override def dayOfMonth: Int = value.getDayOfMonth
 
   override def dayOfWeek: DayOfWeek = value.getDayOfWeek match {
@@ -17,6 +20,8 @@ class DateTime private(value: JodaTime) extends DateTimeInterface {
   }
 
   override def hour: Int = value.getHourOfDay
+
+  override def toString: String = formatter.print(value)
 }
 
 object DateTime {
