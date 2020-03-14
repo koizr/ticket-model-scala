@@ -21,7 +21,7 @@ object Day {
   /**
    * 祝日の計算はこのモデリング練習の範囲外なので雑に土日だけを Holiday とする
    */
-  sealed def apply(datetime: DateTime): Day =
+  def apply(datetime: DateTime): Day =
     if (datetime.dayOfMonth == 1) {
       CinemaDay
     } else {
@@ -41,7 +41,7 @@ object TimePeriod {
 
   object Late extends TimePeriod
 
-  sealed def apply(datetime: DateTime): TimePeriod =
+  def apply(datetime: DateTime): TimePeriod =
     if (datetime.hour < 19) {
       Early
     } else {
