@@ -4,7 +4,7 @@ package com.koizr.cinemacity.domain.datetime
 case class DateTimePeriod(day: Day, time: TimePeriod)
 
 object DateTimePeriod {
-  def from(datetime: DateTime): DateTimePeriod =
+  def apply(datetime: DateTime): DateTimePeriod =
     DateTimePeriod(Day(datetime), TimePeriod(datetime))
 }
 
@@ -21,7 +21,7 @@ object Day {
   /**
    * 祝日の計算はこのモデリング練習の範囲外なので雑に土日だけを Holiday とする
    */
-  def apply(datetime: DateTime): Day =
+  sealed def apply(datetime: DateTime): Day =
     if (datetime.dayOfMonth == 1) {
       CinemaDay
     } else {
@@ -41,7 +41,7 @@ object TimePeriod {
 
   object Late extends TimePeriod
 
-  def apply(datetime: DateTime): TimePeriod =
+  sealed def apply(datetime: DateTime): TimePeriod =
     if (datetime.hour < 19) {
       Early
     } else {
