@@ -19,11 +19,11 @@ class BuyTicketsSpec extends FlatSpec {
     )
 
   "General customer" should "buy a ticket for 1800 yen at Monday 19:00" in {
-    val tickets = BuyTicket(group(CustomerType.General), screen(DateTime(2020, 1, 6, 10)))
+    val tickets = BuyTicket(group(CustomerType.General), screen(DateTime(2020, 1, 6, 19)))
     assert(tickets.head.price == JPY(1800))
   }
   "Senior customer" should "buy a ticket for 1100 yen at Monday 19:00" in {
-    val tickets = BuyTicket(group(CustomerType.Senior), screen(DateTime(2020, 1, 6, 10)))
+    val tickets = BuyTicket(group(CustomerType.Senior), screen(DateTime(2020, 1, 6, 19)))
     assert(tickets.head.price == JPY(1100))
   }
 }
