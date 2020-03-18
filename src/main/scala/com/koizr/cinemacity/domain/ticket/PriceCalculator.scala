@@ -14,28 +14,34 @@ object PriceCalculator {
       case CustomerType.CinemaCitizen => period.day match {
         case Day.Weekday => 1000
         case Day.Holiday => period.time match {
-          case TimePeriod.Early => 1300
+          case TimePeriod.Early => if (period.isCinemaDay) 1100 else 1300
           case TimePeriod.Late => 1000
         }
-        // TODO: 平日なら 1000 円になる。映画の日というのは平日や祝日とは別軸のようだ
-        case Day.CinemaDay => 1100
       }
       case CustomerType.CinemaCitizenOver60 => 1000
-      case CustomerType.General => period.day match {
-        case Day.Weekday | Day.Holiday => period.time match {
-          case TimePeriod.Early => 1800
-          case TimePeriod.Late => 1300
+      case CustomerType.General =>
+        if (period.isCinemaDay) {
+          1100
+        } else {
+          period.day match {
+            case Day.Weekday | Day.Holiday => period.time match {
+              case TimePeriod.Early => 1800
+              case TimePeriod.Late => 1300
+            }
+          }
         }
-        case Day.CinemaDay => 1100
-      }
       case CustomerType.Senior => 1100
-      case CustomerType.CollegeStudent => period.day match {
-        case Day.Weekday | Day.Holiday => period.time match {
-          case TimePeriod.Early => 1500
-          case TimePeriod.Late => 1300
+      case CustomerType.CollegeStudent =>
+        if (period.isCinemaDay) {
+          1100
+        } else {
+          period.day match {
+            case Day.Weekday | Day.Holiday => period.time match {
+              case TimePeriod.Early => 1500
+              case TimePeriod.Late => 1300
+            }
+          }
         }
-        case Day.CinemaDay => 1100
-      }
       case CustomerType.HighSchoolStudent => 1000
       case CustomerType.Child => 1000
       case CustomerType.Handicapped => 1000

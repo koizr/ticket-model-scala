@@ -4,21 +4,25 @@ import com.koizr.cinemacity.infrastructure.DateTime
 import org.scalatest._
 
 class DateTimePeriodSpec extends FlatSpec {
-  "Monday" should "be weekday" in {
+  "Monday" should "be weekday and not cinema day" in {
     val period = DateTimePeriod(DateTime(2020, 1, 6))
     assert(period.day == Day.Weekday)
+    assert(!period.isCinemaDay)
   }
-  "Sunday" should "be holiday" in {
+  "Sunday" should "be holiday and not cinema day" in {
     val period = DateTimePeriod(DateTime(2020, 1, 5))
     assert(period.day == Day.Holiday)
+    assert(!period.isCinemaDay)
   }
-  "1st of month and Wednesday" should "be cinema day" in {
+  "1st of month and Wednesday" should "be weekday and cinema day" in {
     val period = DateTimePeriod(DateTime(2020, 1, 1))
-    assert(period.day == Day.CinemaDay)
+    assert(period.day == Day.Weekday)
+    assert(period.isCinemaDay)
   }
-  "1st of month and Sunday" should "be cinema day" in {
+  "1st of month and Sunday" should "be holiday and cinema day" in {
     val period = DateTimePeriod(DateTime(2017, 1, 1))
-    assert(period.day == Day.CinemaDay)
+    assert(period.day == Day.Holiday)
+    assert(period.isCinemaDay)
   }
 
   "0:00" should "be early show" in {
