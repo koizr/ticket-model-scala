@@ -10,10 +10,10 @@ import org.scalatest.prop.TableDrivenPropertyChecks._
 import org.scalatest.prop.{TableFor2, TableFor3}
 
 class BuyTicketsSpec extends FlatSpec {
-  def group(customers: CustomerType*): CustomerGroup =
+  private def group(customers: CustomerType*): CustomerGroup =
     CustomerGroup(customers)
 
-  def screen(at: DateTime): Screen =
+  private def screen(at: DateTime): Screen =
     Screen(Film("The movie", Time(2)), ScreenNumber(1), at)
 
   private val weekDayEarlyTime = screen(DateTime(2020, 1, 6, 19))
