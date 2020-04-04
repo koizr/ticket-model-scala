@@ -126,6 +126,17 @@ class BuyTicketsSpec extends FlatSpec {
     (group(CustomerType.ParkingAreaPark80), weekDayLateTimeCinemaDay, Seq(JPY(1100))),
     (group(CustomerType.ParkingAreaPark80), holyDayEarlyTimeCinemaDay, Seq(JPY(1400))),
     (group(CustomerType.ParkingAreaPark80), holyDayLateTimeCinemaDay, Seq(JPY(1100))),
+
+    (
+      group(CustomerType.Handicapped, CustomerType.HandicappedPartner),
+      screen(DateTime(2020, 1, 6, 19)),
+      Seq(JPY(1000), JPY(1000))
+    ),
+    (
+      group(CustomerType.HandicappedUnder18, CustomerType.CollegeStudent, CustomerType.HandicappedUnder18Partner),
+      screen(DateTime(2020, 1, 6, 19)),
+      Seq(JPY(900), JPY(1500), JPY(900))
+    ),
   )
 
   forAll(tests) { (group, screen, expectedPrices) =>

@@ -44,8 +44,8 @@ object PriceCalculator {
         }
       case CustomerType.HighSchoolStudent => 1000
       case CustomerType.Child => 1000
-      case CustomerType.Handicapped => 1000
-      case CustomerType.HandicappedUnder18 => 900
+      case CustomerType.Handicapped | CustomerType.HandicappedPartner => 1000
+      case CustomerType.HandicappedUnder18 | CustomerType.HandicappedUnder18Partner => 900
       case CustomerType.MICard => period.time match {
         case TimePeriod.Early => 1600
         case TimePeriod.Late => 1300

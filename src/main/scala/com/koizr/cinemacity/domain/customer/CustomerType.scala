@@ -20,7 +20,11 @@ object CustomerType {
 
   object Handicapped extends CustomerType
 
+  object HandicappedPartner extends CustomerType
+
   object HandicappedUnder18 extends CustomerType
+
+  object HandicappedUnder18Partner extends CustomerType
 
   object MICard extends CustomerType
 
