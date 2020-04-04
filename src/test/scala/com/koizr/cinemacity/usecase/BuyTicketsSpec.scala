@@ -7,7 +7,7 @@ import com.koizr.cinemacity.domain.ticket.JPY
 import com.koizr.cinemacity.infrastructure.DateTime
 import org.scalatest._
 import org.scalatest.prop.TableDrivenPropertyChecks._
-import org.scalatest.prop.TableFor3
+import org.scalatest.prop.{TableFor2, TableFor3}
 
 class BuyTicketsSpec extends FlatSpec {
   def group(customers: CustomerType*): CustomerGroup =
@@ -142,9 +142,48 @@ class BuyTicketsSpec extends FlatSpec {
   forAll(tests) { (group, screen, expectedPrices) =>
     s"Tickets (from ${screen.at}) that is bought by $group" should s"be ￥$expectedPrices" in {
       val tickets = BuyTicket(group, screen)
-      for ((ticket, expectedPrice) <- tickets.zip(expectedPrices)) {
+      assert(tickets.isRight)
+      for ((ticket, expectedPrice) <- tickets.getOrElse(Seq.empty).zip(expectedPrices)) {
         assert(ticket.price == expectedPrice)
       }
+    }
+  }
+
+  // 異常系
+  val failedTests: TableFor2[CustomerGroup, FailedToBuyTicket] = Table(
+    ("CustomerGroup", "Cause"),
+    (
+      group(
+        CustomerType.Handicapped,
+        CustomerType.HandicappedPartner,
+        CustomerType.HandicappedPartner
+      ),
+      HandicappedPartnerIsMoreThanHandicapped
+    ),
+    (
+      group(CustomerType.HandicappedPartner),
+      HandicappedPartnerIsMoreThanHandicapped
+    ),
+    (
+      group(
+        CustomerType.HandicappedUnder18,
+        CustomerType.HandicappedUnder18Partner,
+        CustomerType.HandicappedUnder18Partner
+      ),
+      HandicappedPartnerIsMoreThanHandicapped
+    ),
+    (
+      group(CustomerType.HandicappedUnder18Partner),
+      HandicappedPartnerIsMoreThanHandicapped
+    ),
+  )
+  forAll(failedTests) { (group, cause) =>
+    s"$group" should s"failed to buy ticket. cause: $cause" in {
+      val result = BuyTicket(group, weekDayEarlyTime)
+      assert(result match {
+        case Left(e) => e == cause
+        case _ => false
+      })
     }
   }
 }
